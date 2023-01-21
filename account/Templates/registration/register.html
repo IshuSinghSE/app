@@ -1,0 +1,152 @@
+{%  extends 'base.html' %}
+{% block title %} 
+Sign Up
+{% endblock %}
+
+
+{% block content %}
+<div class="form-control">
+</br>
+</br>
+</br>
+</br>
+
+{% if messages %}
+    {% for message in messages %}
+          <br>
+          <br>
+          <br>
+        <div class="alert alert-warning alert-dismissible fade show" id="mess" role="alert">
+          <strong><i class="fa fa-bell-o" aria-hidden="true"></i></strong> {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>      
+         
+        <script type="text/javascript">
+                setTimeout(function(){
+                    if ($('#mess').length > 0) {
+                        $('#mess').remove();
+                    }
+                }, 2000)
+        </script>   
+    {% endfor %}
+{% endif %}
+    <!-- Pills navs -->
+        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tab-login" data-mdb-toggle="pill" href="{% url 'login' %}" role="tab"
+              aria-controls="pills-login" aria-selected="false">Sign In</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tab-register" data-mdb-toggle="pill" href="{% url 'signup' %}" role="tab"
+              aria-controls="pills-register" aria-selected="true">Sign Up</a>
+          </li>
+        </ul>
+        <!-- Pills navs -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+            <form method="POST">
+                {% csrf_token %} 
+                
+               
+
+              <div class="text-center mb-3">
+                <p>Sign up with:</p>
+                
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-10">
+                        <a href="#" class="social-button facebook-button">
+                            <i class="fa fa-facebook"></i>
+                           
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-6">
+                        <a href="#" class="social-button twitter-button">
+                            <i class="fa fa-twitter"></i>
+                           
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-6">
+                        <a href="#" class="social-button g-button">
+                            <i class="fa fa-google"></i>
+                            
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-6">
+                        <a href="#" class="social-button github-button">
+                            <i class="fa fa-github"></i>
+                            
+                        </a>
+                    </div>
+
+                </div>
+              </div>
+
+              <p class="text-center">or</p>
+              <!-- Username input -->
+              <div class="form-outline m-4">
+                <input type="text" id="registerUsername" class="form-control" name="username" placeholder="Username" required />
+                
+              </div>
+
+              <!-- Name input -->
+              <div class="form-outline m-4">
+                <input type="text" id="registerName" class="form-control" name="first_name" placeholder="First Name" required />
+                
+              </div>
+
+              <div class="form-outline m-4">
+                <input type="text" id="registerName" class="form-control" name="last_name" placeholder="Last Name" required />
+               
+              </div>
+
+
+              <!-- Email input -->
+              <div class="form-outline m-4">
+                <input type="email" id="registerEmail" class="form-control" name="email" placeholder="Email" required />
+               
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline m-4">
+                <input type="password" id="registerPassword" class="form-control" name="password1" placeholder="Password" required />
+               
+              </div>
+
+              <!-- Repeat Password input -->
+              <div class="form-outline m-4">
+                <input type="password" id="registerRepeatPassword" class="form-control" name="password2" placeholder="Confirm Password" required />
+               
+              </div>
+
+              <!-- Checkbox
+              <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
+                  aria-describedby="registerCheckHelpText" />
+                <label class="form-check-label" for="registerCheck">
+                  I have read and agree to the terms
+                </label>
+              </div> -->
+              </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-3">Sign Up</button>
+               <!-- Register buttons -->
+              <div class="text-center">
+              </br>
+                <p>Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+              </div>
+            </form>
+          </div>
+        
+        <!-- Pills content -->
+</br>
+
+</div>
+
+    
+{% endblock %}}

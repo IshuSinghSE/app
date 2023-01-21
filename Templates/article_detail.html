@@ -1,0 +1,574 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load hitcount_tags %}
+{% load social_share %}
+
+{% block content %}
+
+<!--                            POST                                     -->
+
+        <section class="section single-wrapper">
+            <div class="container">
+                {% if messages %}
+                {% for message in messages %}
+        
+        
+                    <div class="alert alert-warning alert-dismissible fade show float" id="mess" role="alert">
+                    <strong><i class="fa fa-bell-o" aria-hidden="true"></i></strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>      
+                    
+                    <script type="text/javascript">
+                            setTimeout(function(){
+                                if ($('#mess').length > 0) {
+                                    $('#mess').remove();
+                                }
+                            }, 5000)
+                    </script>   
+                {% endfor %}
+                {% endif %}
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                        <div class="page-wrapper">
+                            <div class="blog-title-area text-center">
+                                <ol class="breadcrumb hidden-xs-down">
+                                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                                    <li class="breadcrumb-item active">{{ post.title }}</li>
+                                </ol>
+
+                                <span class="color-orange"><a href="{% url 'category' post.category|slugify %}" title="">{{ post.category }}</a></span>
+                                 
+
+
+                                <h3>{{ post.title }}</h3>
+
+                                <div class="blog-meta big-meta">
+                                    <small><a href="{% url 'single' %}" title="">{{ post.publish|naturaltime }}</a></small>
+
+                                {% if post.author.profile %}
+                                    <small><a href="{% url 'show_profile' post.author.profile.id %}" title="">by {{ post.author.first_name }}  {{ post.author.last_name }}</a></small>
+                                {% else %}
+                                    <small><a href="#" title="">by {{ post.author.first_name }}  {{ post.author.last_name }}</a></small>
+                                {% endif %}
+
+                                     <small><a href="#" title="">
+                                        <i class="fa fa-eye"></i> {% get_hit_count for post %} </a></small>
+                                       
+                               
+                                </div><!-- end meta -->
+
+                                <div class="post-sharing">
+                                    <ul class="list-inline">
+                                        
+                                        
+                                        <li>{% post_to_facebook get_absolute_url '<i class="fa fa-facebook"></i>' 'fb-button btn btn-primary' %}
+                                            <span class="down-mobile"></span></li>
+                                        <li>{% post_to_gplus object_or_url  '<i class="fa fa-google-plus"></i>' "ig-button btn btn-primary" %} 
+                                            <span class="down-mobile"></span></li>
+                                        <li> {% post_to_twitter 'text_to_post' get_absolute_url '<i class="fa fa-twitter"></i>' 'tw-button btn btn-primary' %}
+                                            <span class="down-mobile"></span></li>
+                                        <li>{% post_to_whatsapp 'get_absolute_url' '<i class="fa fa-whatsapp"></i>' 'wa-button btn btn-primary' %}
+                                            <span class="down-mobile"></span></li>
+                                        <li>{% send_email "hi" 'share' get_absolute_url '<i class="fa fa-envelope"></i>' 'em-button btn btn-primary' %}
+                                            <span class="down-mobile"></span></a></li>
+                                       <!--- <li>{% copy_to_clipboard  get_absolute_url  '<i class="fa fa-copy"></i>' 'em-button btn btn-primary'  %}{% add_copy_script %}
+                                            <span class="down-mobile"></span></a></li>  -->
+                                        <li><a class="ws-button btn btn-primary" id="shareBtn"  style="margin-bottom:3.5rem ;"><i class="fa fa-share-square-o"></i></a>
+                                            <span class="down-mobile"></span></li>
+
+                                        
+                                    </ul>
+                                </div><!-- end post-sharing -->
+                            </div><!-- end title -->
+
+               
+                            <div class="single-post-media">
+                                {% if post.image %}
+                                      <img src="{{ post.image.url }}" alt="" class="img-fluid">
+                                {% else %}
+                                      <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid">
+                                {% endif %}
+                            </div><!-- end media -->
+
+
+                            <div class="blog-content">  
+                                <div class="pp">
+                                  <p>{{ post.body|safe }}</p>
+                                </div><!-- end pp -->
+                                <hr class="invis">
+                               
+
+                                <div class="pp">
+                                    <h3><strong>Nam non velit est. Sed lobortis arcu vitae nunc molestie consectetur. Nam eget neque ac ex fringilla dignissim eu ac est. Nunc et nisl vel odio posuere. </strong></h3>
+
+                                    
+                                    <ul class="check">
+                                        <li>Integer sit amet odio ac lectus imperdiet elementum.</li>
+                                        <li>Praesent vitae lacus sed lacus ullamcorper mollis.</li>
+                                        <li>Donec vitae metus ac felis vulputate tincidunt non et ex.</li>
+                                        <li>In dapibus sapien at viverra venenatis.</li>
+                                        <li>Pellentesque mollis velit id maximus finibus.</li>
+                                    </ul>
+
+                                    <p><img src="{% static 'upload/tech_menu_10.jpg' %}" class="float-left" width="380' %}" alt="">Suspendisse ultrices placerat dolor sed efficitur. Morbi in laoreet diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ut massa id lectus laoreet porta non in metus. Donec nibh justo, tincidunt non justo ut, tincidunt malesuada turpis. Cras pellentesque sollicitudin ex eget pharetra.rta non in metus. Donec nibh justo, tincidunt non justo ut, tincidunt malesuada turpis. Cras pellentesque sollicitudin ex eget pharetra.</p>
+
+                                    <h3><strong>Nam non velit est. Sed lobortis arcu vitae nunc molestie consectetur. Nam eget neque ac ex fringilla dignissim eu ac est. Nunc et nisl vel odio posuere. </strong></h3>
+                           
+                                    <p><img src="{% static 'upload/tech_menu_11.jpg' %}" class="float-right" width="380' %}" alt="">Suspendisse ultrices placerat dolor sed efficitur. Morbi in laoreet diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ut massa id lectus laoreet porta non in metus. Donec nibh justo, tincidunt non justo ut, tincidunt malesuada turpis. Cras pellentesque sollicitudin ex eget pharetra.rta non in metus. Donec nibh justo, tincidunt non justo ut, tincidunt malesuada turpis. Cras pellentesque sollicitudin ex eget pharetra.</p>
+
+                                   
+                                </div><!-- end pp -->
+                            </div><!-- end content -->
+
+                            <div class="blog-title-area">
+                                <div class="tag-cloud-single">
+                                    <span><i class="fa fa-tag float right mr-10">         Tags </i>   </span>
+                                    {% for tag in post.tags.all %}
+                                      <small><a href="{% url 'tag_detail' tag.slug %}" title=""> {{tag.name}}</a></small>
+                                    
+                                    {% endfor %}
+                                    
+                                </div><!-- end meta -->
+
+                                <div class="post-sharing">
+                                    <ul class="list-inline">
+                                        
+                                        <form action="{% url 'post_likes' post.pk %}" method="POST">
+                                            {% csrf_token %} 
+                                            {% if liked %}  
+                                                <li><button type="submit", name="like_id", value="{{ post.id }}" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-heart"></i><span class="down-mobile">  {{ total_likes }}  UnLike  </span></button></li>
+                                            {% else %}                                 
+                                                <li><button type="submit", name="like_id", value="{{ post.id }}" class="btn btn-primary btn-sm"><i class="fa fa-heart-o"></i><span class="down-mobile">  {{ total_likes }}         Likes  </span></button></li>
+                                            {% endif %}   
+                                        </form></br>
+
+                                        <li>{% post_to_facebook get_absolute_url '<i class="fa fa-facebook"></i>Share on Facebook' 'fb-button btn btn-primary' %}<span class="down-mobile"></span></li>
+                                        
+                                        <li>{% post_to_twitter 'text_to_post' get_absolute_url '<i class="fa fa-twitter"></i>Tweet on Twitter' 'tw-button btn btn-primary' %}<span class="down-mobile"></span></li>
+                                        
+                                        
+                                        <li>{% post_to_whatsapp 'get_absolute_url' '<i class="fa fa-whatsapp"></i> Share on Whatsapp' 'wa-button btn btn-primary' %}<span class="down-mobile"></span></li>
+                                        
+                                        <li><a class="ws-button btn btn-primary" id="shareBtn2"  style="margin-bottom:3.5rem ;"><i class="fa fa-share-square-o">  Share </i></a>
+                                            <span class="down-mobile"></span></li></ul>
+                                </div><!-- end post-sharing -->
+                            </div><!-- end title -->
+
+       
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="banner-spot clearfix">
+                                        <div class="banner-img">
+<!----- BANNER ---->                          <img src="{% static 'upload/banner_01.jpg' %}" alt="" class="img-fluid">
+                                        </div><!-- end banner-img -->
+                                    </div><!-- end banner -->
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+
+                            <hr class="invis1">
+<!--
+                            <div class="custombox prevnextpost clearfix">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="blog-list-widget">
+                                            <div class="list-group">
+                                                <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                    <div class="w-100 justify-content-between">
+                                                        <img src="{% static 'upload/tech_menu_20.jpg' {% static %}" alt="" class="img-fluid float-left">
+                                                        <h5 class="mb-1">Let's make an introduction to the glorious world of history</h5>
+                                                        <small>Prev Post</small>
+                                                    </div>
+                                                </a>                                               
+                                            </div>
+                                        </div>
+                                    </div> end col 
+
+                                    <div class="col-lg-6">
+                                        <div class="blog-list-widget">
+                                            <div class="list-group">
+                                                <a href="{% url 'article_detail' post.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                    <div class="w-100 justify-content-between text-right">
+                                                        <img src="{% static 'upload/tech_menu_19.jpg' {% static %}" alt="" class="img-fluid float-right">
+                                                        <h5 class="mb-1">5 Beautiful buildings you need to before dying</h5>
+                                                        <small>Next Post</small>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div> end col 
+                                </div>end row 
+                            </div> end author-box --->
+
+                            <hr class="invis1">
+
+
+                            <!-- ABOUT AUTHOR -->
+                            {% if post.author.profile %}
+                            <div class="custombox authorbox clearfix">
+                                <h4 class="small-title">About author</h4>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                        <a href="{% url 'show_profile' post.author.profile.id %}">
+                                        {% if post.author.profile.profile_pic %}
+                                            <img src="{{ post.author.profile.profile_pic.url }}" alt="{{ post.author.username }}" class="img-fluid rounded-circle"> 
+                                        {% else %}
+                                            <img src="{% static 'upload/author.jpg'  %}" alt="" class="img-fluid rounded-circle"> 
+                                        {% endif %}
+                                        </a>
+                                    </div><!-- end col -->
+
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                        <h4><a href="{% url 'show_profile' post.author.profile.id %}">
+                                        {{ post.author.first_name|title }} {{ post.author.last_name|title }}
+                                        </a></h4>
+                                        {% if post.author.profile.bio %}
+                                             <p>{{ post.author.profile.bio }}</p>
+                                        {% endif %}
+                                        <div class="topsocial">
+
+                                        {% if post.author.profile.facebook_url %}
+                                            <a href="{{ post.author.profile.facebook_url }}" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                        {% endif %}
+
+                                        {% if post.author.profile.instagram_url %}
+                                            <a href="{{ post.author.profile.instagram_url }}" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                        {% endif %}
+
+                                        {% if post.author.profile.twitter_url %}
+                                            <a href="{{ post.author.profile.twitter_url }}" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                        {% endif %}
+
+                                        {% if post.author.profile.pinterest_url %}           
+                                            <a href="{{ post.author.profile.pinterest_url }}" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                                        {% endif %}
+                                        
+                                        {% if post.author.profile.youtube_url %}
+                                            <a href="{{ post.author.profile.youtube_url }}" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
+                                        {% endif %}
+
+                                        {% if post.author.profile.website_url %}
+                                            <a href="{{ post.author.profile.website_url }}" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
+                                        {% endif %}
+
+                                        </div><!-- end social -->
+
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                            </div><!-- end author-box -->
+                            {% endif %}
+
+                            <!-- ABOUT AUTHOR -->
+
+                            
+
+<!--                              POST END                                          -->
+
+                            <hr class="invis1">
+
+                            <div class="custombox clearfix">
+                                <h4 class="small-title">You may also like</h4>
+                                <div class="row">
+                                    {% for post in similar_post %}
+                                    <div class="col-lg-6">
+                                        <div class="blog-box">
+                                            <div class="post-media">
+                                                <a href="{{ post.get_absolute_url }}" title="">
+                                                    {% if post.image %}
+                                                        <img src="{{ post.image.url }}" alt="{{ post.title }}" width='600px' height='500px' class="img-fluid">
+                                                    {% else %}
+
+                                                        <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid">
+                                                    {% endif %}
+                                                    <div class="hovereffect">
+                                                        <span class=""></span>
+                                                    </div><!-- end hover -->
+                                                </a>
+                                            </div><!-- end media -->
+                                            <div class="blog-meta">
+                                                <h4><a href="{{ post.get_absolute_url }}" title="">{{ post.title }}</a></h4>
+                                                <small><a href="{% url 'category' post.category|slugify %}" title="">{{ post.category }}</a></small>
+                                                <small><a href="#" title="">{{ post.publish|date }}</a></small>
+                                            </div><!-- end meta -->
+                                        </div><!-- end blog-box -->
+                                    </div><!-- end col -->
+                                    {% endfor %}
+                                  
+                                </div><!-- end row -->
+                            </div><!-- end custom-box -->
+
+                            <hr class="invis1">
+
+
+                    
+
+                            <!-------  COMMENTS SECTION  -------->
+
+                            <div class="custombox clearfix">
+
+                            {% if not post.comments.all %}
+                                <h4 class="small-title">No Comments Yet!!!</h4>
+                                <center><a href="#comment" class="btn btn-primary btn-sm">Post Comment</a></center>
+                            {% else %}
+                                <h4 class="small-title"> Comments {{ number_of_comments }} </h4>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="comments-list">
+                                      
+                                            {% for comment in post.comments.all %}
+
+                                            <div class="media">  
+                                                
+                                                {% if comment.author.profile.profile_pic %}
+                                                        <img src="{{ comment.author.profile.profile_pic.url }}" alt="{{ post.author.username }}" class="img-fluid rounded-circle" width="50px"> 
+                                                    {% else %}
+                                                        <img src="{% static 'upload/author.jpg'  %}" alt="" class="img-fluid rounded-circle" width="50px"> 
+                                                    {% endif %}
+                                                   
+                                                <div class="media-body">
+                                                    <h4 class="media-heading user_name">{{ comment.author|title }}
+                                                   
+                                                        <small> {{ comment.date_added|naturaltime }}  </small></h4>
+                                                    <p>{{ comment.body }}</p>
+                                                    <a href="#" class="btn btn-primary btn-sm">Reply</a>
+                                                    <a href="#" class="btn btn-primary btn-sm">delete</a>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+
+                                           
+                                        </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+
+                            {% endif %}
+                            </div><!-- end custom-box -->
+
+                            <hr class="invis1">
+                            
+                            <div class="custombox clearfix" id="comment">
+                                <h4 class="small-title">Leave a Comment</h4>
+                                <div class="row">
+                                {% if user.is_authenticated %}
+                                    <div class="col-lg-12">
+                                        <form class="form-wrapper" method="POST" action="" id="main_form" class="comment_form" >
+                                           {{ comment_form.body }}  
+                                           {% csrf_token %}  
+                                            <input type="submit" class="btn btn-primary" value="Post"> 
+                                        </form>
+                                    </div>
+
+                                {% else %}
+                                    <div class="container text-center">
+                                    <h3 class="small color-grey">Login in first</h3>
+                                            
+                        
+                                            <a class="btn mr-2" href="{% url 'login' %}" type="button"><i class="fa fa-sign-in" aria-hidden="true"></i>  Sign In </a>  
+                                       
+                                            <a class="btn ml-2"  href="{% url 'signup' %}"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+                                        
+                                    </div>
+                                {% endif %}
+                                </div>
+                            </div>
+                       
+
+
+                        </div><!-- end page-wrapper -->
+                    </div><!-- end col -->
+
+                     <!-------  COMMENTS SECTIO END -------->
+
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                        <div class="sidebar">
+                            <div class="widget">
+                                <div class="banner-spot clearfix">
+                                    <div class="banner-img">
+  <!----- BANNER ---->                  <img src="{% static 'upload/banner_07.jpg' %}" alt="" class="img-fluid">
+                                    </div><!-- end banner-img -->
+                                </div><!-- end banner -->
+                            </div><!-- end widget -->
+
+
+                            <div class="widget">
+                                <h2 class="widget-title">Popular Posts</h2>
+                                <div class="blog-list-widget">
+                                    <div class="list-group">
+                                       {% for post in popular_posts %}
+                                        
+                                            <a href="{{ p.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="w-100 justify-content-between">
+                                                    <a href="{{ post.get_absolute_url }}" title="">
+                                                    {% if post.image %}
+                                                    
+                                                          <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid float-left">
+                                                    {% else %}
+    
+                                                          <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid float-left">
+                                                    {% endif %}
+                                                     </a>
+                                                    
+                                                    <h5 class="mb-1">{{ post.title|slice:":30" }}</h5>
+                                                    <small>{{ post.publish.date }}</small>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                            
+                                    </div>
+                                </div><!-- end blog-list -->
+                            </div><!-- end widget -->
+
+
+<!---
+                            <div class="widget">
+                                <h2 class="widget-title">Recent Reviews</h2>
+                                <div class="blog-list-widget">
+                                    <div class="list-group">
+                                        <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="w-100 justify-content-between">
+                                                <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid float-left">
+                                                <h5 class="mb-1">Banana-chip chocolate cake recipe..</h5>
+                                                <span class="rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </div>
+                                        </a>
+
+                                        <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="w-100 justify-content-between">
+                                                <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid float-left">
+                                                <h5 class="mb-1">10 practical ways to choose organic..</h5>
+                                                <span class="rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </div>
+                                        </a>
+
+                                        <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="w-100 last-item justify-content-between">
+                                                <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid float-left">
+                                                <h5 class="mb-1">We are making homemade ravioli..</h5>
+                                                <span class="rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div> end blog-list 
+                            </div> end widget -->
+
+                            <div class="widget">
+                            <h2 class="widget-title">Follow Us</h2>
+
+                            <div class="row text-center">
+                                <div class="col-lg-12 col-md-12 col-sm-1 col-xs-10">
+                                    <a href="{{ link.fb }}" class="social-button facebook-button">
+                                        <i class="fa fa-facebook"></i>
+                                        
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.ig }}" class="social-button instagram-button">
+                                        <i class="fa fa-instagram"></i>
+                                       
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.tw }}" class="social-button twitter-button">
+                                        <i class="fa fa-twitter"></i>
+                                        
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.gp }}" class="social-button google-button">
+                                        <i class="fa fa-google-plus"></i>
+                                       
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.yt }}" class="social-button youtube-button">
+                                        <i class="fa fa-youtube"></i>
+                                        
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!-- end widget -->
+
+                            <div class="widget">
+                                <div class="banner-spot clearfix">
+                                    <div class="banner-img">
+<!----- BANNER ---->                        <img src="{% static 'upload/banner_03.jpg' %}" alt="" class="img-fluid">
+                                    </div><!-- end banner-img -->
+                                </div><!-- end banner -->
+                            </div><!-- end widget -->
+
+                        </div><!-- end sidebar -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section>
+
+<script>
+    const Btn = document.querySelector('#shareBtn');
+    const Btn2 = document.querySelector('#shareBtn2');
+    Btn.onclick = async () => {
+        if(navigator.share) {
+            try {
+                const shareData = {
+                    title: 'web share!',
+                    text : 'wanting to share',
+                    url: '{{ get_absolute_url }}'
+                }
+            await navigator.share(shareData);
+            console.log('shared!');
+            } catch(err) {
+                console.log('Error',err);
+            }
+            } else {
+                console.warn('Native web sharing not avavilable!')
+            
+        }
+    }
+    Btn2.onclick = async () => {
+            if(navigator.share) {
+                try {
+                    const shareData = {
+                        title: 'web share!',
+                        text : 'wanting to share',
+                        url: '{{ get_absolute_url }}'
+                    }
+                await navigator.share(shareData);
+                console.log('shared!');
+                } catch(err) {
+                    console.log('Error',err);
+                }
+                } else {
+                    console.warn('Native web sharing not avavilable!')
+                
+            }
+        }
+
+</script>
+{% endblock %}

@@ -1,0 +1,98 @@
+{%  extends 'base.html' %}
+{% load static %}
+{% block title %} 
+Edit Profile Page
+{% endblock %}
+
+
+{% block content %}
+</br>
+</br>
+{% if user.is_authenticated %}
+
+<div class="page-title lb single-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h2><i class="fa fa-tags bg-orange"></i> Tagged : '{{ tag|title }}' <small class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small></h2>
+            </div><!-- end col -->
+            <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index'  %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Tag</a></li>
+                    <li class="breadcrumb-item active">{{ post.title }}</li>
+                </ol>
+            </div><!-- end col -->                    
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end page-title -->
+  
+    {% if user.id == profile.user.id %}
+    <div class="container ">
+        <div class="form-control card-outline-info card-out mt-4 mb-4 p-5">
+
+        <h1 class=" text-center font-weight-light">Edit Profile Page</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+                <div class="small-12 col align-items-center">
+                    <div class="circle">
+                        <img src="{% static 'upload/author.jpg' %}" alt="" width="100px" class="rounded-circle" class="profile_pic upload-button ">
+                    </div>
+                </div>
+            </div>
+
+        {% csrf_token %} 
+        {{ form.as_p }}
+        {{ form.media }}
+        <button class="btn btn-secondary " >Update Profile Page</button>    
+        </form>
+
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+
+    </div>
+    </div>
+
+    {% else %}
+        </br>
+        <center>
+         <h2>SOMETHING WENT WRONG!!!</h2> 
+        </center>   
+    {% endif %}
+
+{% else %}
+        </br>
+        <center>
+         <h2>SOMETHING WENT WRONG!!!!</h2> 
+        </center>   
+{% endif %}
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}">
+
+    $(document).ready(function(){
+        var readURL = function(input){
+            if (input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    $('.profile_pic').attr('src',e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            } 
+        }
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+
+        $(".upload-button").on('click', function(){
+            $(".file-upload").click();
+
+        });
+    });
+</script>
+
+{% endblock %}
+

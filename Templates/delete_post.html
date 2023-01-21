@@ -1,0 +1,50 @@
+{%  extends 'base.html' %}
+{% block title %} 
+Delete Post
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+
+<div class="page-title lb single-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h2><i class="fa fa-list-alt bg-orange"></i>Delete Post <small class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small></h2>
+            </div><!-- end col -->
+            <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index'  %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Blog</a></li>
+                    <li class="breadcrumb-item active">{{ post.title }}</li>
+                </ol>
+            </div><!-- end col -->                    
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end page-title -->
+
+<div class="container ">
+    <div class="form-control card-outline-info  mt-5 mb-4 p-5">
+<center>
+    <h1 class=" text-center font-weight-light mt-2 text-danger "> {{ post.title }}  - will be deleted!</h1>
+    <form method="POST">
+    {% csrf_token %} 
+    {{ form.as_p }}
+    {{ form.media }}
+    <h3 class=" text-center font-weight-light text-info mt-5  ">You will not be able to undo this process....</h3>
+    <a href="{% url 'index' %}" class="btn btn-danger mt-4 " type='button' class="center font-weight-light mt-5 ">Cancel</a>
+    <button class="btn btn-danger mt-4" class=" center font-weight-light mt-5 ">Delete</button>    
+    </form>
+</center>
+</br>
+
+    </div>
+</div>
+
+{% endif %}
+
+    
+{% endblock %}}

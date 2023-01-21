@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <div class="page-title lb single-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <h2><i class="fa fa-list-alt bg-orange"></i>{{ categories }} Category <small class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small></h2>
+                    </div><!-- end col -->
+                    <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index'  %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Blog</a></li>
+                            <li class="breadcrumb-item active">{{ categories }}</li>
+                        </ol>
+                    </div><!-- end col -->                    
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end page-title -->
+
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        
+
+                        <div class="blog-list clearfix">
+
+                                                        
+                            <!--         ...RECENT POSTS...                       -->
+                         {% if category_posts %}    
+                            {% for post in category_posts %}
+                           
+                                <div class="blog-box row">
+                                    <div class="col-md-4">
+                                        <div class="post-media">
+                                            <a href="{% url 'article_detail' post.pk %}" title="">
+                                          {% if post.image %}
+                                                <img src="{{ post.image.url }}" alt="" class="img-fluid">
+                                          {% else %}
+                                                <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid">
+                                          {% endif %}
+                                                <div class="hovereffect"></div>
+                                            </a>
+                                        </div><!-- end media -->
+                                    </div><!-- end col -->                 
+                                      
+                                    <div class="blog-meta big-meta col-md-8">
+                                        <h4><a href="{% url 'single' %}" title="">{{ post.title }}</a></h4>
+                                        {% if user.id == post.author.id %}
+                                            <small>  
+                                            <a href="{% url 'update_post' post.pk %}"> <i class="fa fa-edit">  edit  </i>
+                                            </a> |
+                                            <a href="{% url 'delete_post' post.pk %}"> <i class="fa fa-trash">  delete  </i>
+                                            </a>
+                                            </small>
+                                        {% endif %}
+                                        <p>{{ post.snippet }}</p>
+                                        <small class="firstsmall"><a class="bg-orange" href="{% url 'category' post.category %}" title="">{{ post.category }}</a></small>
+                                        <small><a href="{% url 'single' %}" title=""><i class="fa fa-clock-o"></i> {{ post.publish }}</a></small>
+                                        <small><a href="{% url 'author' %}" title="">By {{ post.author.first_name }} {{ post.author.last_name }}</a></small>
+                                       <!-- <small><a href="{% url 'single' %}" title="">
+                                        <i class="fa fa-eye"></i> 1114</a></small> -->
+                                    </div><!-- end meta -->
+                                </div><!-- end blog-box -->
+                                <hr class="invis">
+                            
+                            {% endfor %}
+
+                            {% else %}
+                                                       <center>   <h1> There is no Such post in this category yet... </h1></center>
+                            {% endif %}    
+
+
+                                    <!--    ...RECENT POSTS END...    -->
+
+
+                            <hr class="invis">
+
+                                    <div class="row">
+                                        <div class="col-lg-10 offset-lg-1">
+                                            <div class="banner-spot clearfix">
+                                                <div class="banner-img">
+                                                    <img src="{% static 'upload/banner_02.jpg' %}" alt="" class="img-fluid">
+                                                </div><!-- end banner-img -->
+                                            </div><!-- end banner -->
+                                        </div><!-- end col -->
+                                    </div><!-- end row -->
+
+                                   
+                            <hr class="invis">
+
+
+                            <div class="blog-box row">
+                                <div class="col-md-4">
+                                    <div class="post-media">
+                                        <a href="{% url 'single' %}" title="">
+                                            <img src="{% static 'upload/tech_blog_0110.jpg' %}" alt="" class="img-fluid">
+                                            <div class="hovereffect"></div>
+                                        </a>
+                                    </div><!-- end media -->
+                                </div><!-- end col -->
+
+                                <div class="blog-meta big-meta col-md-8">
+                                    <h4><a href="{% url 'single' %}" title="">Google has developed a brand new algorithm. Forget all your knowledge!</a></h4>
+                                    <p>Aenean interdum arcu blandit, vehicula magna non, placerat elit. Mauris et pharetratortor. Suspendissea sodales urna. In at augue elit. Vivamus enim nibh, maximus ac felis nec, maximus tempor odio.</p>
+                                    <small class="firstsmall"><a class="bg-orange" href="{% url 'gadgets' %}" title="">Gadgets</a></small>
+                                    <small><a href="{% url 'single' %}" title="">13 July, 2017</a></small>
+                                    <small><a href="{% url 'author' %}" title="">by Matilda</a></small>
+                                    <small><a href="{% url 'single' %}" title=""><i class="fa fa-eye"></i> 3331</a></small>
+                                </div><!-- end meta -->
+                            </div><!-- end blog-box -->
+                        </div><!-- end blog-list -->
+                    </div><!-- end page-wrapper -->
+
+                <!--   Pagination Start    --->
+
+                    <hr class="invis">
+
+                {% if is_paginated %}
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-start">
+
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a>
+                                    {% endif %}
+
+                                    <!-- Navigate pages -->
+                                    {% for num in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == num %}
+                                            <li class="page-item"><a class="page-link active" href="?page={{ num }}">{{ num }}</a></li>
+                                        {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+                                            <li class="page-item"><a class="page-link active"  href="?page={{ num }}">{{ num }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                                    {% endif %}              
+                                   
+                                </ul>
+                            </nav>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                {% endif %}
+
+                <!--   Pagination END    --->
+                </div> <!-- end col -->
+
+                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                    <div class="sidebar">
+                        <div class="widget">
+                            <div class="banner-spot clearfix">
+                                <div class="banner-img">
+                                    <img src="{% static 'upload/banner_07.jpg' %}" alt="" class="img-fluid">
+                                </div><!-- end banner-img -->
+                            </div><!-- end banner -->
+                        </div><!-- end widget -->
+
+<!------                          <div class="widget">
+                            <h2 class="widget-title">Trend Videos</h2>
+                            <div class="trend-videos">
+                                <div class="blog-box">
+                                    <div class="post-media">
+                                        <a href="{% url 'single' %}" title="">
+                                            <img src="{% static 'upload/tech_video.jpg' %}" alt="" class="img-fluid">
+                                            <div class="hovereffect">
+                                                <span class="videohover"></span>
+                                            </div>- 
+                                        </a>
+                                    </div>
+                                    <div class="blog-meta">
+                                        <h4><a href="{% url 'single' %}" title="">We prepared the best 10 laptop presentations for you</a></h4>
+                                    </div>
+                                </div>
+
+                                <hr class="invis">
+
+                            </div>
+                        </div>
+---------->
+
+
+                        <div class="widget">
+                            <h2 class="widget-title">Popular Posts</h2>
+                            <div class="blog-list-widget">
+                                <div class="list-group">
+                                   {% for post in popular_posts %}
+                                    
+                                        <a href="{{ p.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="w-100 justify-content-between">
+                                                <a href="{{ post.get_absolute_url }}" title="">
+                                                {% if post.image %}
+                                                
+                                                      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid float-left">
+                                                {% else %}
+
+                                                      <img src="{% static 'upload/tech_blog_01.jpg' %}" alt="" class="img-fluid float-left">
+                                                {% endif %}
+                                                 </a>
+                                                
+                                                <h5 class="mb-1">{{ post.title|slice:":30" }}</h5>
+                                                <small>{{ post.publish.date }}</small>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                        
+                                </div>
+                            </div><!-- end blog-list -->
+                        </div><!-- end widget -->
+<!---------
+                        <div class="widget">
+                            <h2 class="widget-title">Recent Reviews</h2>
+                            <div class="blog-list-widget">
+                                <div class="list-group">
+                                    <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="w-100 justify-content-between">
+                                            <img src="{% static 'upload/tech_blog_0102.jpg' %}" alt="" class="img-fluid float-left">
+                                            <h5 class="mb-1">Banana-chip chocolate cake recipe..</h5>
+                                            <span class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                        </div>
+                                    </a>
+
+                                    <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="w-100 justify-content-between">
+                                            <img src="{% static 'upload/tech_blog_0103.jpg' %}" alt="" class="img-fluid float-left">
+                                            <h5 class="mb-1">10 practical ways to choose organic..</h5>
+                                            <span class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                        </div>
+                                    </a>
+
+                                    <a href="{% url 'single' %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="w-100 last-item justify-content-between">
+                                            <img src="{% static 'upload/tech_blog_0107.jpg' %}" alt="" class="img-fluid float-left">
+                                            <h5 class="mb-1">We are making homemade ravioli..</h5>
+                                            <span class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>end blog-list 
+                        </div> end widget --------------------->
+
+                        <div class="widget">
+                            <h2 class="widget-title">Follow Us</h2>
+
+                            <div class="row text-center">
+                                <div class="col-lg-12 col-md-12 col-sm-1 col-xs-10">
+                                    <a href="{{ link.fb }}" class="social-button facebook-button">
+                                        <i class="fa fa-facebook"></i>
+                                        
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.ig }}" class="social-button instagram-button">
+                                        <i class="fa fa-instagram"></i>
+                                       
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.tw }}" class="social-button twitter-button">
+                                        <i class="fa fa-twitter"></i>
+                                        
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.gp }}" class="social-button google-button">
+                                        <i class="fa fa-google-plus"></i>
+                                       
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-3 col-xs-10">
+                                    <a href="{{ link.yt }}" class="social-button youtube-button">
+                                        <i class="fa fa-youtube"></i>
+                                        
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!-- end widget -->
+
+                        <div class="widget">
+                            <div class="banner-spot clearfix">
+                                <div class="banner-img">
+                                    <img src="{% static 'upload/banner_03.jpg' %}" alt="" class="img-fluid">
+                                </div><!-- end banner-img -->
+                            </div><!-- end banner -->
+                        </div><!-- end widget -->
+                    </div><!-- end sidebar -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+
+
+
+{% endblock %}
